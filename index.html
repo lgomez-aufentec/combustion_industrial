@@ -6,14 +6,12 @@
     <title>Combustión & Control del Bajío | Soluciones Industriales</title>
     <meta name="description" content="Distribuidor líder en el Bajío de equipos de combustión, calderas, material eléctrico e instrumentación. Honeywell, Siemens, Parker.">
     
-    <!-- FAVICON -->
-    <link rel="icon" href="assets/favicon.ico">
+    <!-- FAVICON (Corregido con tipo MIME explícito) -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 
     <!-- 1. ESTILOS (.css) -->
-    <!-- Usamos Tailwind CSS para mantener el diseño idéntico al de React de forma eficiente -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configuración de Colores Personalizados -->
     <script>
         tailwind.config = {
             theme: {
@@ -39,7 +37,6 @@
         }
     </script>
 
-    <!-- Estilos CSS Adicionales -->
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: system-ui, -apple-system, sans-serif; }
@@ -52,17 +49,21 @@
             background-color: rgba(27, 26, 56, 0.95) !important;
             backdrop-filter: blur(5px);
         }
+        
+        /* Ajuste de logo en header scrolleado para que no ocupe toda la pantalla */
+        .header-scrolled img {
+            height: 6rem !important; /* Se reduce al bajar el scroll */
+            transition: height 0.3s ease;
+        }
 
-        /* Menú Móvil */
         #mobile-menu {
             transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
             max-height: 0; opacity: 0; overflow: hidden;
         }
         #mobile-menu.open { max-height: 500px; opacity: 1; }
         
-        /* Ajuste de Logos de Marcas */
         .brand-logo {
-            height: 6rem; /* Altura duplicada (antes 3rem) */
+            height: 6rem;
             width: auto;
             object-fit: contain;
             filter: grayscale(100%) opacity(0.7);
@@ -74,7 +75,6 @@
         }
     </style>
 
-    <!-- Iconos Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-light text-gray-800 antialiased">
@@ -83,10 +83,9 @@
     <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4 bg-secondary">
         <div class="container mx-auto px-4 flex justify-between items-center">
             
-            <!-- LOGOTIPO (Usamos el blanco para el fondo oscuro) -->
+            <!-- LOGOTIPO GIGANTE (h-64 es aprox 3 veces más grande que el estándar) -->
             <a href="#" class="flex items-center gap-3">
-                <!-- Ajusta la altura (h-24) para duplicar el tamaño anterior (h-12) -->
-                <img src="assets/img/logo-blanco.png" alt="Combustión & Control del Bajío" class="h-24 w-auto">
+                <img src="assets/img/logo-blanco.png" alt="Combustión & Control del Bajío" class="h-64 w-auto transition-all duration-300">
             </a>
 
             <!-- MENÚ ESCRITORIO -->
@@ -96,7 +95,6 @@
                 <a href="#catalogo" class="text-gray-300 hover:text-white hover:border-b-2 border-yellow-400 transition-all text-sm font-medium uppercase tracking-wide py-1">Catálogo</a>
                 <a href="#servicios" class="text-gray-300 hover:text-white hover:border-b-2 border-yellow-400 transition-all text-sm font-medium uppercase tracking-wide py-1">Servicios</a>
                 
-                <!-- Botón Descargar PDF -->
                 <a href="assets/pdf/catalogo-combustion.pdf" download class="flex items-center gap-2 text-yellow-400 hover:text-white transition text-sm font-bold border border-yellow-400/30 px-3 py-1 rounded hover:bg-white/10">
                     <i data-lucide="download" class="w-4 h-4"></i> PDF
                 </a>
@@ -106,13 +104,11 @@
                 </a>
             </nav>
 
-            <!-- BOTÓN MENÚ MÓVIL -->
             <button id="mobile-menu-btn" class="lg:hidden text-white p-1 focus:outline-none">
                 <i data-lucide="menu" class="w-7 h-7"></i>
             </button>
         </div>
 
-        <!-- MENÚ MÓVIL -->
         <div id="mobile-menu" class="lg:hidden bg-secondary border-t border-gray-700 absolute w-full left-0 top-full shadow-xl">
             <div class="flex flex-col p-6 space-y-4">
                 <a href="#inicio" class="mobile-link text-white hover:text-yellow-400 text-lg font-medium border-b border-gray-700 pb-2">Inicio</a>
@@ -127,16 +123,13 @@
         </div>
     </header>
 
-    <!-- --- HERO SECTION (Portada) --- -->
+    <!-- --- HERO SECTION --- -->
     <section id="inicio" class="relative h-screen min-h-[600px] flex items-center justify-center pt-20 overflow-hidden">
-        
-        <!-- FONDO -->
         <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('assets/img/fachada-principal.jpg');">
             <div class="absolute inset-0 bg-[#1B1A38]/90"></div>
         </div>
 
         <div class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-12 items-center">
-            <!-- Texto -->
             <div class="space-y-6 text-center md:text-left animate-fade-in-up">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-yellow-400/20 border border-yellow-400/50 text-yellow-400 text-xs font-bold uppercase tracking-widest">
                     <i data-lucide="shield" class="w-3.5 h-3.5"></i> Combustión & Control del Bajío
@@ -163,7 +156,6 @@
                 </div>
             </div>
             
-            <!-- Imagen Identidad (Líder en el Bajío) -->
             <div class="hidden md:flex justify-center items-center relative h-full">
                 <div class="relative w-full max-w-md transform hover:scale-105 transition duration-700 ease-out">
                     <div class="absolute inset-0 border-2 border-dashed border-yellow-500/30 rounded-xl transform translate-x-4 translate-y-4"></div>
@@ -187,7 +179,6 @@
             </div>
             
             <div class="grid md:grid-cols-2 gap-12">
-                <!-- Misión -->
                 <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-yellow-400 shadow-sm hover:shadow-md transition">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="p-3 bg-yellow-100 rounded-full text-yellow-700"><i data-lucide="users" class="w-6 h-6"></i></div>
@@ -199,7 +190,6 @@
                     </p>
                 </div>
                 
-                <!-- Visión -->
                 <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-blue-900 shadow-sm hover:shadow-md transition">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="p-3 bg-blue-100 rounded-full text-blue-900"><i data-lucide="award" class="w-6 h-6"></i></div>
@@ -214,12 +204,11 @@
         </div>
     </section>
 
-    <!-- --- MARCAS (Socios Comerciales) --- -->
+    <!-- --- MARCAS --- -->
     <div class="py-12 bg-gray-50 border-y border-gray-200 overflow-hidden">
         <div class="container mx-auto px-4">
             <p class="text-center text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">Nuestros Socios Comerciales</p>
             <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-                <!-- Asumimos extensión .png para logos transparentes -->
                 <img src="assets/img/marcas/logo_honeywell.png" alt="Honeywell" class="brand-logo">
                 <img src="assets/img/marcas/logo-siemens.png" alt="Siemens" class="brand-logo">
                 <img src="assets/img/marcas/logo_parker.png" alt="Parker" class="brand-logo">
@@ -241,7 +230,7 @@
         </div>
     </div>
 
-    <!-- --- CATÁLOGO (8 Categorías) --- -->
+    <!-- --- CATÁLOGO --- -->
     <section id="catalogo" class="py-24 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
@@ -253,7 +242,6 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                
                 <!-- 1. Combustión -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
@@ -264,7 +252,6 @@
                         <p class="text-gray-500 text-sm">Control de flama, aquastatos, modutroles, servomotores.</p>
                     </div>
                 </div>
-
                 <!-- 2. Instrumentación -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
@@ -275,7 +262,6 @@
                         <p class="text-gray-500 text-sm">Manómetros, pirómetros, termómetros y transmisores.</p>
                     </div>
                 </div>
-
                 <!-- 3. Material Eléctrico -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
@@ -286,7 +272,6 @@
                         <p class="text-gray-500 text-sm">Transformadores, gabinetes, motores y material de instalación.</p>
                     </div>
                 </div>
-
                 <!-- 4. Refractarios -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
@@ -297,8 +282,7 @@
                         <p class="text-gray-500 text-sm">Concreto y tabique refractario para aislamiento térmico.</p>
                     </div>
                 </div>
-
-                <!-- 5. Control y Automatización -->
+                <!-- 5. Control -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
                         <img src="assets/img/productos/control.jpg" alt="Control" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
@@ -308,8 +292,7 @@
                         <p class="text-gray-500 text-sm">Sensores, fotoceldas, PLCs y pistones.</p>
                     </div>
                 </div>
-
-                <!-- 6. Válvulas y Tubería -->
+                <!-- 6. Válvulas -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
                         <img src="assets/img/productos/valvulas.jpg" alt="Válvulas" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
@@ -319,7 +302,6 @@
                         <p class="text-gray-500 text-sm">Válvulas de bobina y palanca, reguladores y unidades de mantenimiento.</p>
                     </div>
                 </div>
-
                 <!-- 7. Iluminación -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
@@ -330,7 +312,6 @@
                         <p class="text-gray-500 text-sm">Luminarias LED especializadas para naves industriales.</p>
                     </div>
                 </div>
-
                 <!-- 8. Cable -->
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="relative h-48 bg-gray-200 overflow-hidden">
@@ -341,7 +322,6 @@
                         <p class="text-gray-500 text-sm">Cable de uso rudo, control e instrumentación.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -489,7 +469,8 @@
         <div class="container mx-auto px-4 grid md:grid-cols-4 gap-10">
             <div class="col-span-1 md:col-span-2 space-y-4">
                 <a href="#" class="block">
-                     <img src="assets/img/logo-blanco.png" alt="Logo Combustión" class="h-20 w-auto mb-4">
+                     <!-- LOGO PIE DE PAGINA GIGANTE (h-64) -->
+                     <img src="assets/img/logo-blanco.png" alt="Logo Combustión" class="h-64 w-auto mb-4">
                 </a>
                 <p class="text-gray-400 max-w-sm text-sm leading-relaxed">
                     Combustión & Control del Bajío. Tu aliado estratégico. Comprometidos con la calidad y el servicio para mantener tu industria en movimiento.

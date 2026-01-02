@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combustión & Control del Bajío | Soluciones Industriales</title>
+    <meta name="description" content="Distribuidor líder en el Bajío de equipos de combustión, calderas, material eléctrico e instrumentación. Honeywell, Siemens, Parker.">
+    
+    <!-- FAVICON (Icono de pestaña) -->
+    <link rel="icon" type="image/png" href="assets/favicon.ico">
+
+    <!-- 1. ESTILOS (.css) -->
+    <!-- Usamos Tailwind CSS para mantener el diseño idéntico al de React de forma eficiente -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración de Colores Personalizados -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FDC330',    /* Amarillo Industrial */
+                        secondary: '#1B1A38',  /* Azul Profundo */
+                        accent: '#2C3E50',     /* Gris Oscuro */
+                        light: '#F4F4F4',      /* Fondo Suave */
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Estilos CSS Adicionales (Custom CSS) -->
+    <style>
+        /* Comportamiento de desplazamiento suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Estilos base */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        /* Efecto de Header Scrolleado */
+        .header-scrolled {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+        }
+
+        /* Animaciones para el menú móvil */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 400px; /* Ajustar según contenido */
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Iconos Lucide (Reemplazo de lucide-react) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-light text-gray-800 antialiased">
+
+    <!-- --- HEADER (Navegación) --- -->
+    <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4 bg-secondary">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            
+            <!-- LOGOTIPO -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded flex items-center justify-center font-bold text-xl shadow-md bg-primary text-secondary transition-transform group-hover:scale-110">
+                    CI
+                </div>
+                <div class="leading-tight text-white">
+                    <h1 class="text-xl font-bold tracking-wider">COMBUSTIÓN</h1>
+                    <span class="text-xs font-semibold tracking-[0.2em] text-yellow-400">CONTROL INDUSTRIAL</span>
+                </div>
+            </a>
+
+            <!-- MENÚ ESCRITORIO -->
+            <nav class="hidden lg:flex space-x-6 items-center">
+                <a href="#inicio" class="text-gray-300 hover:text-white hover:border-b-2 border-yellow-400 transition-all text-sm font-medium uppercase tracking-wide py-1">Inicio</a>
+                <a href="#nosotros" class="text-gray-300 hover:text-white hover:border-b-2 border-yellow-400 transition-all text-sm font-medium uppercase tracking-wide py-1">Nosotros</a>
+                <a href="#catalogo" class="text-gray-300 hover:text-white hover:border-b-2 border-yellow-400 transition-all text-sm font-medium uppercase tracking-wide py-1">Catálogo</a>
+                <a href="#servicios" class="text-gray-300 hover:text-white hover:border-b-2 border-yellow-400 transition-all text-sm font-medium uppercase tracking-wide py-1">Servicios</a>
+                
+                <!-- Botón Descargar PDF -->
+                <a href="assets/pdf/catalogo-combustion.pdf" download class="flex items-center gap-2 text-yellow-400 hover:text-white transition text-sm font-bold border border-yellow-400/30 px-3 py-1 rounded hover:bg-white/10">
+                    <i data-lucide="download" class="w-4 h-4"></i> PDF
+                </a>
+
+                <a href="#contacto" class="px-6 py-2 rounded-full font-bold text-sm shadow hover:shadow-lg transition transform hover:-translate-y-0.5 bg-primary text-secondary">
+                    COTIZAR
+                </a>
+            </nav>
+
+            <!-- BOTÓN MENÚ MÓVIL -->
+            <button id="mobile-menu-btn" class="lg:hidden text-white p-1 focus:outline-none">
+                <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
+        </div>
+
+        <!-- MENÚ MÓVIL DESPLEGABLE -->
+        <div id="mobile-menu" class="lg:hidden bg-secondary border-t border-gray-700 absolute w-full left-0 top-full shadow-xl">
+            <div class="flex flex-col p-6 space-y-4">
+                <a href="#inicio" class="mobile-link text-white hover:text-yellow-400 text-lg font-medium border-b border-gray-700 pb-2">Inicio</a>
+                <a href="#nosotros" class="mobile-link text-white hover:text-yellow-400 text-lg font-medium border-b border-gray-700 pb-2">Nosotros</a>
+                <a href="#catalogo" class="mobile-link text-white hover:text-yellow-400 text-lg font-medium border-b border-gray-700 pb-2">Catálogo</a>
+                <a href="#servicios" class="mobile-link text-white hover:text-yellow-400 text-lg font-medium border-b border-gray-700 pb-2">Servicios</a>
+                <a href="#contacto" class="mobile-link text-white hover:text-yellow-400 text-lg font-medium border-b border-gray-700 pb-2">Contacto</a>
+                <a href="assets/pdf/catalogo-combustion.pdf" download class="text-yellow-400 hover:text-white font-bold flex items-center gap-2 pt-2">
+                    <i data-lucide="download" class="w-5 h-5"></i> Descargar Catálogo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- --- HERO SECTION (Portada) --- -->
+    <section id="inicio" class="relative h-screen min-h-[600px] flex items-center justify-center pt-20 overflow-hidden">
+        
+        <!-- FONDO -->
+        <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+            <!-- Overlay Oscuro -->
+            <div class="absolute inset-0 bg-[#1B1A38]/90"></div>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Contenido Texto -->
+            <div class="space-y-6 text-center md:text-left animate-fade-in-up">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-yellow-400/20 border border-yellow-400/50 text-yellow-400 text-xs font-bold uppercase tracking-widest">
+                    <i data-lucide="shield" class="w-3.5 h-3.5"></i> Combustión & Control del Bajío
+                </div>
+                
+                <h2 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                    Seguridad y <br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-200">
+                        Eficiencia Energética
+                    </span>
+                </h2>
+                
+                <p class="text-gray-300 text-lg md:text-xl max-w-lg mx-auto md:mx-0 leading-relaxed">
+                    Especialistas en la distribución de equipos para la industria de calderas y sistemas de combustión. Confiabilidad total en tu operación.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-6">
+                    <a href="#catalogo" class="px-8 py-3 rounded font-bold text-lg transition hover:brightness-110 flex items-center justify-center gap-2 shadow-lg shadow-yellow-500/20 bg-primary text-secondary">
+                        Ver Oferta <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="assets/pdf/catalogo-combustion.pdf" download class="px-8 py-3 rounded font-bold text-lg border border-white/40 transition hover:bg-white hover:text-black flex items-center justify-center text-white backdrop-blur-sm gap-2">
+                        <i data-lucide="download" class="w-5 h-5"></i> Catálogo PDF
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Imagen Destacada (Líder en el Bajío) -->
+            <div class="hidden md:flex justify-center items-center relative h-full">
+                <div class="relative w-full max-w-md transform hover:scale-105 transition duration-700 ease-out">
+                    <div class="absolute inset-0 border-2 border-dashed border-yellow-500/30 rounded-xl transform translate-x-4 translate-y-4"></div>
+                    <div class="relative bg-white p-3 rounded-xl shadow-2xl overflow-hidden">
+                        <!-- Placeholder Imagen -->
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800" alt="Líneas de Trabajo" class="w-full h-auto object-cover rounded shadow-inner">
+                        <div class="absolute top-6 right-6 bg-yellow-400 text-secondary font-bold px-3 py-1 rounded text-xs shadow-lg">
+                            LÍDER EN EL BAJÍO
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- SECCIÓN NOSOTROS --- -->
+    <section id="nosotros" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-yellow-600 font-bold uppercase tracking-wider text-sm">Nuestra Filosofía</span>
+                <h3 class="text-3xl md:text-4xl font-bold mt-2 text-secondary">Combustión & Control del Bajío</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Misión -->
+                <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-yellow-400 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-yellow-100 rounded-full text-yellow-700">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-gray-800">Misión</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        Proporcionamos soluciones integrales y personalizadas en sistemas de combustión y control para la industria. 
+                        Nos enfocamos en ofrecer productos y servicios de alta calidad, que optimicen la eficiencia operativa de nuestros clientes, 
+                        garantizando seguridad, sostenibilidad y responsabilidad ambiental en cada uno de nuestros proyectos.
+                    </p>
+                </div>
+                
+                <!-- Visión -->
+                <div class="bg-gray-50 p-8 rounded-xl border-l-4 border-blue-900 shadow-sm hover:shadow-md transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-3 bg-blue-100 rounded-full text-blue-900">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-gray-800">Visión</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        Ser líderes en el mercado nacional en soluciones de combustión y control industrial, reconocidos por nuestra innovación y 
+                        compromiso con superar las expectativas de nuestros clientes. Aspiramos a un crecimiento basado en la excelencia operativa, 
+                        la innovación continua y la creación de valor.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- MARCAS (Socios Comerciales) --- -->
+    <div class="py-12 bg-gray-50 border-y border-gray-200 overflow-hidden">
+        <div class="container mx-auto px-4">
+            <p class="text-center text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">Nuestros Socios Comerciales</p>
+            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-60 hover:opacity-100 transition-opacity duration-300">
+                <!-- Aquí puedes reemplazar estos textos con <img> apuntando a assets/img/marcas/logo.png -->
+                <span class="text-xl md:text-2xl font-bold text-gray-700 cursor-default">Honeywell</span>
+                <span class="text-xl md:text-2xl font-bold text-gray-700 cursor-default">Siemens</span>
+                <span class="text-xl md:text-2xl font-bold text-gray-700 cursor-default">Parker</span>
+                <span class="text-xl md:text-2xl font-bold text-gray-700 cursor-default">Worcester</span>
+                <span class="text-xl md:text-2xl font-bold text-gray-700 cursor-default">Winters</span>
+                <span class="text-xl md:text-2xl font-bold text-gray-700 cursor-default">McDonnell & Miller</span>
+                <span class="text-xl md:text-2xl font-bold text-gray-700 cursor-default">Rochester Gauges</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- CATÁLOGO --- -->
+    <section id="catalogo" class="py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-yellow-600 font-bold uppercase tracking-wider text-sm">Nuestra Oferta</span>
+                <h3 class="text-4xl md:text-5xl font-bold mt-2 mb-6 text-secondary">Catálogo de Soluciones</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                    Desde control de flama hasta refractarios. Todo lo necesario para tus calderas y sistemas industriales.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- ITEM 1: Combustión -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        <div class="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=400" alt="Combustión" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md z-20 text-secondary">
+                            <i data-lucide="thermometer" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h4 class="text-xl font-bold mb-3 text-secondary group-hover:text-yellow-600 transition-colors">Combustión y Calderas</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">Control de flama, aquastatos, modutroles, servomotores, módulos de ignición y válvulas.</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-sm font-bold text-gray-700 group-hover:bg-yellow-50 group-hover:text-yellow-700 transition-colors cursor-pointer">
+                        <span>Ver Detalles</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <!-- ITEM 2: Instrumentación -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        <div class="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=400" alt="Instrumentación" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md z-20 text-secondary">
+                            <i data-lucide="activity" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h4 class="text-xl font-bold mb-3 text-secondary group-hover:text-yellow-600 transition-colors">Instrumentación</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">Manómetros, pirómetros, termómetros, transmisores de presión y temperatura.</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-sm font-bold text-gray-700 group-hover:bg-yellow-50 group-hover:text-yellow-700 transition-colors cursor-pointer">
+                        <span>Ver Detalles</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <!-- ITEM 3: Material Eléctrico -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        <div class="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1558402529-d2638a7023e9?auto=format&fit=crop&q=80&w=400" alt="Material Eléctrico" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md z-20 text-secondary">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h4 class="text-xl font-bold mb-3 text-secondary group-hover:text-yellow-600 transition-colors">Material Eléctrico</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">Transformadores, gabinetes, interruptores de presión, motores y material de instalación.</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-sm font-bold text-gray-700 group-hover:bg-yellow-50 group-hover:text-yellow-700 transition-colors cursor-pointer">
+                        <span>Ver Detalles</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <!-- ITEM 4: Refractarios -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        <div class="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?auto=format&fit=crop&q=80&w=400" alt="Refractarios" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md z-20 text-secondary">
+                            <i data-lucide="box" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <h4 class="text-xl font-bold mb-3 text-secondary group-hover:text-yellow-600 transition-colors">Refractarios</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">Concreto y tabique refractario para aislamiento térmico industrial de alta eficiencia.</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-sm font-bold text-gray-700 group-hover:bg-yellow-50 group-hover:text-yellow-700 transition-colors cursor-pointer">
+                        <span>Ver Detalles</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- SERVICIOS --- -->
+    <section id="servicios" class="py-24 text-white relative overflow-hidden bg-secondary">
+        <!-- Elemento de fondo -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-white/5 -skew-x-12 transform origin-bottom pointer-events-none"></div>
+
+        <div class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <div class="inline-block px-3 py-1 rounded border border-yellow-400 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-4">
+                    Valor Agregado
+                </div>
+                <h3 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                    Más que proveedores, <br/>
+                    <span class="text-yellow-400">Somos Expertos Técnicos</span>
+                </h3>
+                <p class="text-gray-300 mb-10 text-lg leading-relaxed">
+                    En Combustión Industrial entendemos que un paro de línea cuesta dinero. 
+                    Por eso, nuestro equipo de ingeniería te respalda con servicios especializados.
+                </p>
+                
+                <div class="space-y-8">
+                    <!-- Servicio 1 -->
+                    <div class="flex items-start space-x-5">
+                        <div class="mt-1 flex-shrink-0 bg-yellow-400 rounded-full p-1 text-secondary">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-1">Asesoría Técnica y Consultoría</h4>
+                            <p class="text-gray-400 text-sm">Expertos analizando tus necesidades para optimizar la eficiencia operativa.</p>
+                        </div>
+                    </div>
+                    <!-- Servicio 2 -->
+                    <div class="flex items-start space-x-5">
+                        <div class="mt-1 flex-shrink-0 bg-yellow-400 rounded-full p-1 text-secondary">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-1">Suministro de Equipos y Refacciones</h4>
+                            <p class="text-gray-400 text-sm">Amplio stock de marcas líderes para entrega inmediata.</p>
+                        </div>
+                    </div>
+                    <!-- Servicio 3 -->
+                    <div class="flex items-start space-x-5">
+                        <div class="mt-1 flex-shrink-0 bg-yellow-400 rounded-full p-1 text-secondary">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-1">Capacitación y Entrenamiento</h4>
+                            <p class="text-gray-400 text-sm">Formación técnica para el personal operativo de tu planta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative">
+                 <div class="absolute -inset-4 bg-yellow-400 rounded-lg blur-lg opacity-20"></div>
+                 <div class="relative h-[500px] bg-gray-800 rounded-lg overflow-hidden border border-gray-700 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800" alt="Técnico Industrial" class="w-full h-full object-cover opacity-80">
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-8">
+                       <p class="font-bold text-white text-lg">Capacitación y Entrenamiento Técnico</p>
+                       <p class="text-yellow-400 text-sm">Personal certificado</p>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- CONTACTO --- -->
+    <section id="contacto" class="py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid lg:grid-cols-12 gap-12">
+                
+                <!-- Info Izquierda -->
+                <div class="lg:col-span-4 space-y-8">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-2 text-secondary">Visítanos</h3>
+                        <p class="text-gray-500">Estamos ubicados estratégicamente en León, Gto.</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="h-40 rounded-lg overflow-hidden mb-6 relative">
+                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fachada" class="w-full h-full object-cover">
+                            <div class="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">Fachada Principal</div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <i data-lucide="map-pin" class="mt-1 flex-shrink-0 text-yellow-500 w-5 h-5"></i>
+                                <div>
+                                    <h5 class="font-bold text-gray-800">Dirección</h5>
+                                    <p class="text-gray-600 text-sm">
+                                        Blvd. Adolfo López Mateos #2707,<br/>
+                                        Col. Barrio de Guadalupe, C.P. 37289,<br/>
+                                        León, Guanajuato, México.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <i data-lucide="phone" class="mt-1 flex-shrink-0 text-yellow-500 w-5 h-5"></i>
+                                <div>
+                                    <h5 class="font-bold text-gray-800">Llámanos</h5>
+                                    <p class="text-gray-600 font-mono text-sm">477 123 4567</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <i data-lucide="file-text" class="mt-1 flex-shrink-0 text-yellow-500 w-5 h-5"></i>
+                                <div>
+                                    <h5 class="font-bold text-gray-800">Datos Fiscales</h5>
+                                    <p class="text-gray-600 font-mono text-sm">RFC: CAC150428NI3</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario Derecha -->
+                <div class="lg:col-span-8 bg-gray-50 p-8 md:p-12 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="text-2xl font-bold mb-2 text-secondary">¿Necesitas una cotización?</h3>
+                    <p class="text-gray-500 mb-8">Compártenos tu lista de materiales o requerimientos. Respondemos el mismo día.</p>
+                    
+                    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Nombre</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-all" placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Empresa</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-all" placeholder="Nombre de tu empresa">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Teléfono / WhatsApp</label>
+                            <input type="tel" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-all" placeholder="(477) ...">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Correo</label>
+                            <input type="email" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-all" placeholder="correo@ejemplo.com">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Lista de Materiales / Mensaje</label>
+                            <textarea rows="5" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-all" placeholder="Ej: Cotización de 100m de cable THW calibre 10..."></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="button" class="w-full py-4 rounded-lg font-bold text-lg shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 flex justify-center items-center gap-2 bg-primary text-secondary">
+                                Enviar Solicitud <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- FOOTER --- -->
+    <footer class="text-white py-16 border-t border-gray-800 bg-secondary">
+        <div class="container mx-auto px-4 grid md:grid-cols-4 gap-10">
+            <div class="col-span-1 md:col-span-2 space-y-4">
+                <h2 class="text-2xl font-bold tracking-wide">COMBUSTIÓN <span class="text-yellow-400">CONTROL INDUSTRIAL</span></h2>
+                <p class="text-gray-400 max-w-sm text-sm leading-relaxed">
+                    Combustión & Control del Bajío. Tu aliado estratégico. Comprometidos con la calidad y el servicio para mantener tu industria en movimiento.
+                </p>
+                <div class="flex gap-4 pt-4">
+                    <!-- Redes Sociales -->
+                    <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-secondary transition">F</a>
+                    <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-yellow-400 hover:text-secondary transition">I</a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-bold mb-6 text-lg text-yellow-400">Acceso Rápido</h4>
+                <ul class="space-y-3 text-gray-400 text-sm">
+                    <li><a href="#catalogo" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3"></i> Catálogo</a></li>
+                    <li><a href="#servicios" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3"></i> Servicios</a></li>
+                    <li><a href="#nosotros" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3"></i> Nosotros</a></li>
+                    <li><a href="#contacto" class="hover:text-white transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-3 h-3"></i> Contacto</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold mb-6 text-lg text-yellow-400">Contacto</h4>
+                <ul class="space-y-3 text-gray-400 text-sm">
+                    <li class="flex justify-between border-b border-gray-700 pb-2"><span>Ventas:</span> <span class="text-white">477 123 4567</span></li>
+                    <li class="flex justify-between border-b border-gray-700 pb-2"><span>Email:</span> <span class="text-white">ventas@combustionindustrial.com</span></li>
+                    <li class="flex justify-between text-gray-500 pt-2"><span>RFC:</span> <span>CAC150428NI3</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container mx-auto px-4 mt-16 pt-8 border-t border-gray-700/50 text-center text-gray-500 text-xs flex flex-col md:flex-row justify-between items-center">
+            <p>&copy; 2024 Combustión & Control del Bajío. Todos los derechos reservados.</p>
+            <div class="flex gap-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white">Política de Privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/5214771234567" target="_blank" rel="noopener noreferrer" class="fixed bottom-8 right-8 z-50 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center animate-pulse bg-green-500 text-white">
+        <i data-lucide="message-circle" class="w-8 h-8 fill-current"></i>
+    </a>
+
+    <!-- 2. LOGICA JAVASCRIPT (.js) -->
+    <script>
+        // --- Inicializar Iconos Lucide ---
+        lucide.createIcons();
+
+        // --- Lógica del Menú Móvil ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const menuIcon = menuBtn.querySelector('i');
+
+        // Alternar menú al hacer click en el botón
+        menuBtn.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('open');
+            if (isOpen) {
+                mobileMenu.classList.remove('open');
+                // Cambiar icono a Menu
+                menuIcon.setAttribute('data-lucide', 'menu');
+            } else {
+                mobileMenu.classList.add('open');
+                // Cambiar icono a X
+                menuIcon.setAttribute('data-lucide', 'x');
+            }
+            lucide.createIcons(); // Recargar iconos si cambian
+        });
+
+        // Cerrar menú al hacer click en un enlace
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // --- Lógica de Scroll Header ---
+        const header = document.getElementById('main-header');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+                header.classList.add('shadow-lg');
+                header.classList.remove('py-4');
+            } else {
+                header.classList.remove('header-scrolled');
+                header.classList.remove('shadow-lg');
+                header.classList.add('py-4');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -6,40 +6,29 @@
     <title>Combustión & Control del Bajío | Soluciones Industriales</title>
     <meta name="description" content="Distribuidor líder en el Bajío de equipos de combustión, calderas, material eléctrico e instrumentación. Honeywell, Siemens, Parker.">
     
-    <!-- FAVICON (Corregido con tipo MIME explícito) -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 
     <!-- 1. ESTILOS (.css) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#FDC330',    /* Amarillo Industrial */
-                        secondary: '#1B1A38',  /* Azul Profundo */
-                        accent: '#2C3E50',     /* Gris Oscuro */
-                        light: '#F4F4F4',      /* Fondo Suave */
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
+    <!-- CSS Personalizado para Cargar la Fuente -->
     <style>
+        /* Declaración de la fuente personalizada */
+        @font-face {
+            font-family: 'EA Font';
+            src: url('assets/fonts/EA_Font_v1.5.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Comportamiento de desplazamiento suave */
         html { scroll-behavior: smooth; }
-        body { font-family: system-ui, -apple-system, sans-serif; }
+        
+        /* Aplicamos la fuente base */
+        body { 
+            font-family: 'EA Font', system-ui, -apple-system, sans-serif; 
+        }
         
         /* Efecto de Header Scrolleado */
         .header-scrolled {
@@ -50,9 +39,9 @@
             backdrop-filter: blur(5px);
         }
         
-        /* Ajuste de logo en header scrolleado para que no ocupe toda la pantalla */
+        /* Ajuste de logo en header scrolleado */
         .header-scrolled img {
-            height: 6rem !important; /* Se reduce al bajar el scroll */
+            height: 6rem !important;
             transition: height 0.3s ease;
         }
 
@@ -75,15 +64,44 @@
         }
     </style>
 
+    <!-- Configuración de Tailwind para usar la fuente -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"EA Font"', 'system-ui', 'sans-serif'], // Define EA Font como la predeterminada
+                    },
+                    colors: {
+                        primary: '#FDC330',    /* Amarillo Industrial */
+                        secondary: '#1B1A38',  /* Azul Profundo */
+                        accent: '#2C3E50',     /* Gris Oscuro */
+                        light: '#F4F4F4',      /* Fondo Suave */
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-light text-gray-800 antialiased">
+<body class="bg-light text-gray-800 antialiased tracking-wide"> <!-- Agregué tracking-wide para mejorar legibilidad -->
 
     <!-- --- HEADER --- -->
     <header id="main-header" class="fixed w-full z-50 transition-all duration-300 py-4 bg-secondary">
         <div class="container mx-auto px-4 flex justify-between items-center">
             
-            <!-- LOGOTIPO GIGANTE (h-64 es aprox 3 veces más grande que el estándar) -->
+            <!-- LOGOTIPO GIGANTE -->
             <a href="#" class="flex items-center gap-3">
                 <img src="assets/img/logo-blanco.png" alt="Combustión & Control del Bajío" class="h-64 w-auto transition-all duration-300">
             </a>
